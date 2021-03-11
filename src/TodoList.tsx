@@ -50,10 +50,11 @@ const editFieldLayout: Interpolation<Theme> = {
 type Props = {
   todos: Todo[]; 
   handleTodoDelete: (e: MouseEvent<HTMLButtonElement>, id: number) => void;
+  handleEdit: (e: MouseEvent<HTMLButtonElement>, id: number) => void;
 };
 
 const TodoList: FC<Props> = (props) => {
-  const { todos, handleTodoDelete } = props;
+  const { todos, handleTodoDelete, handleEdit } = props;
   return (
     <ul css={todoListStyle}>
       {todos.map((todo) => {
@@ -63,6 +64,9 @@ const TodoList: FC<Props> = (props) => {
               <input css={checkBoxStyle} type="checkbox" />
               <p css={titleStyle}>{todo.title}</p>
             </div>
+            <button 
+              css={deleteButtonStyle}
+              onClick={(e) => handleEdit(e, todo.id)}>Edit</button>
             <button 
               css={deleteButtonStyle} 
               onClick={(e) => handleTodoDelete(e, todo.id)}>DEL</button>

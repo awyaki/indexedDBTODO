@@ -27,6 +27,9 @@ const appTitleStyle: Interpolation<Theme> = {
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState<string>("");
+  const [isEditable, setEditable] = useState<boolean>(false);
+  const [editTitle, setEditTitle] = useState<string>("");
+  const [editId, setEditId] = useState<number>(0);
 
   useEffect(() => {
   // データベースを開く
@@ -92,15 +95,56 @@ const App = () => {
     };
   };
 
+
+  const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
+    setEditable(false);
+  };
+
+  const handleEditChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setEditTitle(e.target.value);
+  };
+
+  const handleUpdate= (e: MouseEvent<HTMLButtonElement>, id: number) => {
+    // データベースを更新
+    const openReq = indexedDB.open("todos");
+    openReq.onsuccess = () => {
+      const db = openReq.result;
+      const trans = db.transaction("todo", "readwrite");
+      const objStore = trans.objectStore("todo");
+      objStore.put({ id: id, title: editTitle });
+      const getAllReq = objStore.getAll();
+      getAllReq.onsuccess = () => {
+        setTodos(getAllReq.result);
+      }
+    }
+    // データベースを元にtodoを更新
+  };
+
+  const handleEdit = (e: MouseEvent<HTMLButtonElement>, id: number) => {
+    setEditable(true);
+    // idが一致するtodoのタイトルを取得する
+    const title = todos.filter((todo) => id === todo.id)[0].title;
+    setEditTitle(title);
+    setEditId(editId);
+  };
+
   return (
     <div css={appStyle}>
       <h1 css={appTitleStyle}>TODO</h1>
-      <TodoList todos={todos} handleTodoDelete={handleTodoDelete} />
+      <TodoList 
+        todos={todos} 
+        handleTodoDelete={handleTodoDelete}
+        handleEdit={handleEdit} />
       <InputArea 
         text={text}
         handleChange={handleChange}
         handleClick={handleTodoCreate} />
-        <EditField />
+        {isEditable ? <EditField 
+                        handleClose={handleClose} 
+                        handleChange={handleEditChange}
+                        handleUpdate={handleUpdate}
+                        id={editId}
+                        title={editTitle} /> : undefined}
     </div>
   );
 };

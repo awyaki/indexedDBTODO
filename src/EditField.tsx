@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, FC , MouseEvent } from "react";
 import { Interpolation, Theme } from "@emotion/react";
 import { colors } from "colors";
 
@@ -39,16 +39,21 @@ const closeButtonStyle: Interpolation<Theme> = {
 
 type Props = {
   layout?: Interpolation<Theme>;
-  handleChange?: ChangeEventHandler<HTMLButtonElement>;
+  title: string;
+  id: number;
+  handleChange: ChangeEventHandler<HTMLInputElement>;
+  handleUpdate: (e: MouseEvent<HTMLButtonElement>, id: number) => void;
+  handleClose: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
 
 const EditField: FC<Props> = (props) => {
+  const { handleChange, handleUpdate, handleClose, title, id,  ...rest } = props;
   return (
-    <div css={editFieldStyle} {...props}>
-      <button css={closeButtonStyle}>X</button>
-      <input css={inputTextStyle} type="text" />
-      <button css={buttonStyle}>Update</button>
+    <div css={editFieldStyle} {...rest}>
+      <button css={closeButtonStyle} onClick={handleClose}>X</button>
+      <input css={inputTextStyle} type="text" onChange={handleChange} defaultValue={title} />
+      <button css={buttonStyle} onClick={(e) => handleUpdate(e, id)}>Update</button>
     </div>
   );
 };
