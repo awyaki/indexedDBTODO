@@ -5,12 +5,17 @@ import { Interpolation, Theme } from "@emotion/react";
 import TodoList from "TodoList";
 import { Todo } from "types";
 import InputArea from "InputArea";
+import EditField from "EditField";
 
 const appStyle: Interpolation<Theme> = {
   width: "70%",
   minWidth: "400px",
-  height: "400px",
-  margin: "3rem auto 0 auto",
+  height: "100vh",
+  margin: "0 auto",
+  padding: ".7rem",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
 };
 
 const appTitleStyle: Interpolation<Theme> = {

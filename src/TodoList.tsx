@@ -3,6 +3,7 @@ import { FC, MouseEvent } from "react";
 import { Interpolation, Theme } from "@emotion/react";
 import { Todo } from "types";
 import { colors } from "colors";
+import EditField from "EditField";
 
 const flexContainer: Interpolation<Theme> = {
   display: "flex",
@@ -10,11 +11,11 @@ const flexContainer: Interpolation<Theme> = {
 
 const todoListStyle: Interpolation<Theme> = {
   width: "100%",
-  height: "90%",
   backgroundColor: colors.green.level0,
   borderRadius: "10px",
   marginBottom: ".7rem",
   overflow: "scroll",
+  flex: "auto",
 };
 
 const todoStyle: Interpolation<Theme> = {
@@ -38,6 +39,12 @@ const deleteButtonStyle: Interpolation<Theme> = {
   borderRadius: "3px",
   padding: ".2rem .4rem",
   marginRight: "1rem",
+};
+
+const editFieldLayout: Interpolation<Theme> = {
+  position: "absolute",
+  top: "50%",
+  length: "50%",
 };
 
 type Props = {
