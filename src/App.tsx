@@ -47,10 +47,11 @@ const App = () => {
     };
   }, []);
 
+
+
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setText(e.target.value);
   };
-
 
   const handleTodoCreate = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
