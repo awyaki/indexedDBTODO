@@ -100,6 +100,7 @@ const App = () => {
         text={text}
         handleChange={handleChange}
         handleClick={handleTodoCreate} />
+        <EditField />
     </div>
   );
 };
